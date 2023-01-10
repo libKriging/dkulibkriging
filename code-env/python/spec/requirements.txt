@@ -1,0 +1,6 @@
+{
+    "python" : [
+        {"name":"pylibkriging", "version":"==0.7.3"},
+        {"name":"numpy", "version":"~=1.20"}
+    ]
+}
