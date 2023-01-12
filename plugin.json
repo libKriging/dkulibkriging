@@ -19,7 +19,7 @@
         "icon": "icon-puzzle-piece",
 
         // List of tags for filtering the list of plugins
-        "tags": ["Machine Learning", "Gaussian Process", "Prediction", "Kriging"], //for example: ["Machine Learning", "NLP"]
+        "tags": ["Machine Learning", "Gaussian Process", "Regression", "Prediction", "Kriging", "Sampling", "Covariance"], //for example: ["Machine Learning", "NLP"]
 
         // URL where the user can learn more about the plugin
         "url": "https://github.com/libKriging",
