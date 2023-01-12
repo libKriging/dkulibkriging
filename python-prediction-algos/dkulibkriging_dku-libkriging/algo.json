@@ -78,7 +78,7 @@
          "label":"Optimization method for training", 
          "description":"Used to fit covaraince parameters on input data", 
          "type":"MULTISELECT", 
-         "defaultValue":|, 
+         "defaultValue":["BFGS"], 
          "selectChoices":[{"value":"BFGS","label":"BFGS"},{"value":"BFGS10","label":"10 BFGS"},{"value":"None","label":"None"}],
          "gridParam":true
         },
