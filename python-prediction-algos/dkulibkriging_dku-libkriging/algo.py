@@ -24,7 +24,7 @@ class KrigingEstimator(BaseEstimator):
                 self.noise = float(self.noise)
             if isinstance(self.noise,float) & (self.noise == 0.0):
                 self.noise = None
-             warnings.warn("noise type becomes:" + str(type(self.noise)))
+            warnings.warn("noise type becomes:" + str(type(self.noise)))
         if self.noise is None:
             self.kriging = lk.Kriging(self.kernel)
         elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
