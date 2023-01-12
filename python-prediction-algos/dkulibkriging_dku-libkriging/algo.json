@@ -46,7 +46,7 @@
     "params": [
         {"name":"kernel", 
          "label":"Covariance kernel", 
-         "description":"Type of covariance function to fit between observations", 
+         "description":"Type of covariance function for input features space", 
          "type":"SELECT", 
          "defaultValue":"matern3_2", 
          "selectChoices":[{"value":"exp","label":"Exponential"},
@@ -57,7 +57,7 @@
         },
         {"name":"regmodel", 
          "label":"Regression model", 
-         "description":"Universal kriging trend", 
+         "description":"Linear regression model trend for input features space (also known as 'universal kriging')", 
          "type":"SELECT", 
          "defaultValue":"constant", 
          "selectChoices":[{"value":"constant","label":"Constant"},
@@ -75,7 +75,7 @@
          "gridParam":false
         },
         {"name":"optim", 
-         "label":"Optimization method", 
+         "label":"Optimization method for training", 
          "description":"Used to fit covaraince parameters on input data", 
          "type":"SELECT", 
          "defaultValue":"BFGS", 
@@ -83,7 +83,7 @@
          "gridParam":false
         },
         {"name":"objective",
-         "label":"Objective to target in fit",
+         "label":"Objective to target for training",
          "description":"Statistic to target in fit",
          "type":"SELECT",
          "defaultValue":"LL",
