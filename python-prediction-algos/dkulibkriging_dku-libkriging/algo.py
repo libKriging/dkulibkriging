@@ -95,7 +95,7 @@ class CustomPredictionAlgorithm(BaseCustomPredictionAlgorithm):
                                     normalize =  params.get("normalize",False),
                                     optim =      params.get("optim","BFGS"),
                                     objective =  params.get("objective","LL"),
-                                    noise =      params.get("noise",None),
+                                    noise =      params.get("noise",0.0),
                                     parameters = None)
         super(CustomPredictionAlgorithm, self).__init__(prediction_type, params)
     
