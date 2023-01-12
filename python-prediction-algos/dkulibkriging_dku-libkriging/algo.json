@@ -94,7 +94,7 @@
          "label":"Noise",
          "description":"Noise of observed data",
          "type":"DOUBLE", 
-         "defaultValue":0.0,
+         "defaultValue": 0.0,
          "allowDuplicates":false,
          "gridParam":false
         }
