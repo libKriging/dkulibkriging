@@ -20,13 +20,13 @@ class KrigingEstimator(BaseEstimator):
             self.parameters = {}
         if not self.noise is None:
             warnings.warn("noise type is:" + str(type(self.noise)))
-            if type(self.noise) == int:
+            if isinstance(self.noise,int):
                 self.noise = float(self.noise)
-            if (type(self.noise) == float) & (self.noise == 0.0):
+            if isinstance(self.noise,float) & (self.noise == 0.0):
                 self.noise = None
         if self.noise is None:
             self.kriging = lk.Kriging(self.kernel)
-        elif type(self.noise) == float: # homoskedastic user-defined "noise"
+        elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
             self.kriging = lk.NoiseKriging(self.kernel)
         else:
             raise Exception("noise type not supported:", type(self.noise))
@@ -42,7 +42,7 @@ class KrigingEstimator(BaseEstimator):
         self.y_train = y
         if self.noise is None:
             self.kriging.fit(y, X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)      
-        elif type(self.noise) == float: # homoskedastic user-defined "noise"
+        elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
             self.kriging.fit(y, np.repeat(self.noise, y.size), X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)
         else:
             raise Exception("noise type not supported:", type(self.noise))
