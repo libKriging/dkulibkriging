@@ -68,7 +68,7 @@
         },
         {"name":"normalize",
          "label":"Normalize input data",
-         "description":"",
+         "description":"-",
          "type":"BOOLEAN",
          "defaultValue":false,
          "allowDuplicates":false,
