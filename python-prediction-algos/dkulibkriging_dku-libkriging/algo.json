@@ -2,10 +2,10 @@
 {
     "meta" : {
         // label: name of the algorithm as displayed, should be short
-        "label": "Gaussian Process Regression",
+        "label": "Gaussian Process Regressions",
 
         // description: longer string to help end users understand what this algorithm is. Will be displayed in the algorithm page
-        "description": "Gausian process regression and prediction, exact or noisy data. Based on libKriging.",
+        "description": "Gausian process regressions and prediction, exact or noisy data. Based on libKriging.",
 
         // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
         "icon": "icon-puzzle-piece"
@@ -17,7 +17,7 @@
 
     // Depending on the mode you select, DSS will handle or not the building of the grid from the params
     // Possible values are ["NONE", "MANAGED", "CUSTOM"]
-    "gridSearchMode": "NONE",
+    "gridSearchMode": "MANAGED",
 
     // Whether the model supports or not sample weights for training. 
     // If yes, the clf from `algo.py` must have a `fit(X, y, sample_weights=None)` method
@@ -47,8 +47,8 @@
         {"name":"kernel", 
          "label":"Covariance kernel", 
          "description":"Type of covariance function for input features space", 
-         "type":"SELECT", 
-         "defaultValue":"matern3_2", 
+         "type":"MULTISELECT", 
+         "defaultValue": ["matern3_2"], 
          "selectChoices":[{"value":"exp","label":"Exponential"},
                           {"value":"matern3_2","label":"Matern 3/2"},
                           {"value":"matern5_2","label":"Matern 5/2"},
@@ -58,8 +58,8 @@
         {"name":"regmodel", 
          "label":"Regression model", 
          "description":"Linear regression model trend for input features space (also known as 'universal kriging')", 
-         "type":"SELECT", 
-         "defaultValue":"constant", 
+         "type":"MULTISELECT", 
+         "defaultValue": ["constant"], 
          "selectChoices":[{"value":"constant","label":"Constant"},
                           {"value":"linear","label":"Linear"},
                           {"value":"interactive","label":"Interactive"},
@@ -77,8 +77,8 @@
         {"name":"optim", 
          "label":"Optimization method for training", 
          "description":"Used to fit covaraince parameters on input data", 
-         "type":"SELECT", 
-         "defaultValue":"BFGS", 
+         "type":"MULTISELECT", 
+         "defaultValue":|, 
          "selectChoices":[{"value":"BFGS","label":"BFGS"},{"value":"BFGS10","label":"10 BFGS"},{"value":"None","label":"None"}],
          "gridParam":false
         },
