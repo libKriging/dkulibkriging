@@ -1,11 +1,11 @@
-/* This file is the descriptor for the Custom Python Prediction algorithm dkulibkriging_dku-libkriging */
+/* This file is the descriptor for the Custom Python Prediction algorithm libkriging_kriging */
 {
     "meta" : {
         // label: name of the algorithm as displayed, should be short
-        "label": "Custom algo dkulibkriging_dku-libkriging",
+        "label": "Gaussian Process Regression",
 
         // description: longer string to help end users understand what this algorithm is. Will be displayed in the algorithm page
-        "description": "This is the description of the Custom algo dkulibkriging_dku-libkriging",
+        "description": "Gausian process regression and prediction, exact or noisy data. Based on libKriging.",
 
         // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
         "icon": "icon-puzzle-piece"
@@ -17,13 +17,13 @@
 
     // Depending on the mode you select, DSS will handle or not the building of the grid from the params
     // Possible values are ["NONE", "MANAGED", "CUSTOM"]
-    "gridSearchMode": "MANAGED",
+    "gridSearchMode": "NONE",
 
     // Whether the model supports or not sample weights for training. 
     // If yes, the clf from `algo.py` must have a `fit(X, y, sample_weights=None)` method
     // If not, sample weights are not applied on this algorithm, but if they are selected
     // for training, they will be applied on scoring metrics and charts.
-    "supportsSampleWeights": true,
+    "supportsSampleWeights": false,
 
     // Whether the model supports sparse matrice for fitting and predicting, 
     // i.e. if the `clf` provided in `algo.py` accepts a sparse matrix as argument
@@ -44,52 +44,59 @@
     Below is an example of parameters for an AdaBoost regressor from scikit learn.
     */
     "params": [
-        {
-            "name": "n_estimators",
-            "label": "num estimators",
-            "description": "The maximum number of estimators at which boosting is terminated. In case of perfect fit, the learning procedure is stopped early.",
-            "type": "DOUBLES",
-            "defaultValue": [50, 100],
-            "allowDuplicates": false,
-            "gridParam": true
+        {"name":"kernel", 
+         "label":"Covariance kernel", 
+         "description":"Type of covariance function to fit between observations", 
+         "type":"SELECT", 
+         "defaultValue":"matern3_2", 
+         "selectChoices":[{"value":"exp","label":"Exponential"},
+                          {"value":"matern3_2","label":"Matern 3/2"},
+                          {"value":"matern5_2","label":"Matern 5/2"},
+                          {"value":"gauss","label":"Gauss"}], 
+         "gridParam":false
         },
-        {
-            "name": "learning_rate",
-            "label": "learning rate",
-            "description":"Lower values slow down convergence and can make the model more robust. Typical values: 0.01 - 0.3",
-            "type": "DOUBLES",
-            "defaultValue": [0.2],
-            "allowDuplicates": false,
-            "gridParam": true
+        {"name":"regmodel", 
+         "label":"Regression model", 
+         "description":"Universal kriging trend", 
+         "type":"SELECT", 
+         "defaultValue":"constant", 
+         "selectChoices":[{"value":"constant","label":"Constant"},
+                          {"value":"linear","label":"Linear"},
+                          {"value":"interactive","label":"Interactive"},
+                          {"value":"quadratic","label":"Quadratic"}], 
+         "gridParam":false
         },
-        {
-            "name": "loss",
-            "label": "loss",
-            "description": "Type of loss used.",
-            "type": "MULTISELECT",
-            "defaultValue": ["linear"],
-            "selectChoices": [
-                {
-                    "value":"linear",
-                    "label":"linear"
-                },
-                {
-                    "value":"square",
-                    "label":"square"
-                },
-                {
-                    "value":"exponential",
-                    "label": "exponential"
-                }
-            ],
-            "gridParam": true
+        {"name":"normalize",
+         "label":"Normalize input data",
+         "description":"", 
+         "type":"BOOLEAN", 
+         "defaultValue":false, 
+         "allowDuplicates":false, 
+         "gridParam":false
         },
-        {
-            "name": "random_state",
-            "label": "Random state",
-            "description": "Using a fixed random seed allows for reproducible result.",
-            "type": "DOUBLE",
-            "defaultValue": 1337
-        }      
+        {"name":"optim", 
+         "label":"Optimization method", 
+         "description":"Used to fit covaraince parameters on input data", 
+         "type":"SELECT", 
+         "defaultValue":"BFGS", 
+         "selectChoices":[{"value":"BFGS","label":"BFGS"},{"value":"BFGS10","label":"10 BFGS"},{"value":"None","label":"None"}],
+         "gridParam":false
+        },
+        {"name":"objective",
+         "label":"Objective to target in fit",
+         "description":"Statistic to target in fit",
+         "type":"SELECT",
+         "defaultValue":"LL",
+         "selectChoices":[{"value":"LL","label":"log-likelihood"},{"value":"LOO","label":"leave-one-out"},{"value":"LMP","label":"log-marginal-posterior"}],
+         "gridParam":false
+        },
+        {"name":"noise",
+         "label":"Noise",
+         "description":"Noise of observed data",
+         "type":"DOUBLE", 
+         "defaultValue":0.0,
+         "allowDuplicates":false,
+         "gridParam":false
+        }
     ]
 }
