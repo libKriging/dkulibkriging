@@ -85,16 +85,16 @@
         {"name":"objective",
          "label":"Objective to target for training",
          "description":"Statistic to target in fit",
-         "type":"SELECT",
-         "defaultValue":"LL",
+         "type":"MULTISELECT",
+         "defaultValue":["LL"],
          "selectChoices":[{"value":"LL","label":"log-likelihood"},{"value":"LOO","label":"leave-one-out"},{"value":"LMP","label":"log-marginal-posterior"}],
          "gridParam":true
         },
         {"name":"noise",
          "label":"Noise",
          "description":"Noise of observed data",
-         "type":"DOUBLE", 
-         "defaultValue": 0.0,
+         "type":"DOUBLES", 
+         "defaultValue": [0.0],
          "allowDuplicates":false,
          "gridParam":true
         }
