@@ -1,10 +1,75 @@
-# This file is the actual code for the custom Python algorithm dkulibkriging_dku-libkriging
+# This file is the actual code for the kriging algorithm
 from dataiku.doctor.plugins.custom_prediction_algorithm import BaseCustomPredictionAlgorithm
-from sklearn.ensemble import AdaBoostRegressor
+
+from sklearn.base import BaseEstimator
+import pylibkriging as lk
+import numpy as np
+import warnings
+
+class KrigingEstimator(BaseEstimator):
+    
+    def __init__(self, kernel="matern3_2" ,regmodel = "constant" ,normalize = False ,optim = "BFGS" ,objective = "LL" ,noise = None ,parameters = None):
+        self.kernel = kernel
+        self.regmodel = regmodel
+        self.normalize = normalize
+        self.optim = optim
+        self.objective = objective
+        self.noise = noise
+        self.parameters = parameters
+        if self.parameters is None:
+            self.parameters = {}
+        if self.noise is None:
+            self.kriging = lk.Kriging(self.kernel)
+        elif type(self.noise) is float: # homoskedastic user-defined "noise"
+            if self.noise == 0.0:
+                self.noise = None
+                self.kriging = lk.Kriging(self.kernel)
+            else:
+                self.kriging = lk.NoiseKriging(self.kernel)
+        else:
+            raise Exception("noise type not supported:", type(self.noise))
+        warnings.warn(self.kriging.summary())
+        
+    def fit(self, X, y):
+        y = y.values
+        ## for debug:
+        #np.savetxt("y.csv", y, delimiter=",")
+        #np.savetxt("X.csv", X, delimiter=",")
+        # for (later) pickling:
+        self.X_train = X
+        self.y_train = y
+        if self.noise is None:
+            self.kriging.fit(y, X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)      
+        elif type(self.noise) is float: # homoskedastic user-defined "noise"
+            self.kriging.fit(y, np.repeat(self.noise, y.size), X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)
+        else:
+            raise Exception("noise type not supported:", type(self.noise))
+        warnings.warn(self.kriging.summary())
+    
+    def predict(self, X): # just return mean predicted :(
+        return self.kriging.predict(X, False, False, False)[0][:,0]
+    
+    # Unused for now:
+    #def sample_y(self, X, n_samples = 1, random_state = 0):
+    #    return self.kriging.simulate(nsim = n_samples, seed = random_state, x = X)
+    #
+    #def log_marginal_likelihood(self, theta=None, eval_gradient=False):
+    #    if theta is None:
+    #        return self.kriging.logLikeliHood()
+    #    else:
+    #        return self.kriging.logLikeliHoodFun(theta, eval_gradient)
+    
+    # hack to support/circum. pickling
+    def __getstate__(self):
+        state = {'X_train': self.X_train, 'y_train':self.y_train}
+        return state
+    def __setstate__(self, newstate):
+        self.kriging.fit(newstate['y_train'], newstate['X_train'], self.regmodel, self.normalize, self.optim, self.objective, self.parameters)
+        
 
 class CustomPredictionAlgorithm(BaseCustomPredictionAlgorithm):    
     """
-        Class defining the behaviour of `dkulibkriging_dku-libkriging` algorithm:
+        Class defining the behaviour of `kriging` algorithm:
         - how it handles parameters passed to it
         - how the estimator works
 
@@ -21,7 +86,13 @@ class CustomPredictionAlgorithm(BaseCustomPredictionAlgorithm):
     """
     
     def __init__(self, prediction_type=None, params=None):        
-        self.clf = AdaBoostRegressor(random_state=params.get("random_state", None))
+        self.clf = KrigingEstimator(kernel =     params.get("kernel","matern3_2"),
+                                    regmodel =   params.get("regmodel","constant"),
+                                    normalize =  params.get("normalize",False),
+                                    optim =      params.get("optim","BFGS"),
+                                    objective =  params.get("objective","LL"),
+                                    noise =      params.get("noise",None),
+                                    parameters = None)
         super(CustomPredictionAlgorithm, self).__init__(prediction_type, params)
     
     def get_clf(self):
