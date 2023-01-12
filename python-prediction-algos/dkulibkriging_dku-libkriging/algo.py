@@ -8,7 +8,7 @@ import warnings
 
 class KrigingEstimator(BaseEstimator):
     
-    def __init__(self, kernel="matern3_2" ,regmodel = "constant" ,normalize = False ,optim = "BFGS" ,objective = "LL" ,noise = None ,parameters = None):
+    def __init__(self, kernel="matern3_2" ,regmodel = "constant" ,normalize = False ,optim = "BFGS" ,objective = "LL" ,noise = 0.0 ,parameters = None):
         self.kernel = kernel
         self.regmodel = regmodel
         self.normalize = normalize
@@ -19,12 +19,13 @@ class KrigingEstimator(BaseEstimator):
         if self.parameters is None:
             self.parameters = {}
         if not noise is None:
-            warnings.warn("noise type is:" + str(type(self.noise)))
+            warnings.warn("noise type is:" + str(type(noise)))
             if isinstance(noise,int):
                 self.noise = float(noise)
-            if isinstance(noise,float) & (noise == 0.0):
+            elif isinstance(noise,float) & (noise == 0.0):
                 self.noise = None
-            warnings.warn("noise type becomes:" + str(type(self.noise)))
+            else:
+                self.noise = noise
         if self.noise is None:
             self.kriging = lk.Kriging(self.kernel)
         elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
