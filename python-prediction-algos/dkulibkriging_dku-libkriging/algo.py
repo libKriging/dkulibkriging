@@ -21,7 +21,7 @@ class KrigingEstimator(BaseEstimator):
         if not self.noise is None:
             if type(self.noise) is int:
                 self.noise = float(self.noise)
-            if type(self.noise) is float && self.noise == 0.0:
+            if type(self.noise) is float & self.noise == 0.0:
                 self.noise = None
         if self.noise is None:
             self.kriging = lk.Kriging(self.kernel)
