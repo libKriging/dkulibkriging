@@ -53,7 +53,7 @@
                           {"value":"matern3_2","label":"Matern 3/2"},
                           {"value":"matern5_2","label":"Matern 5/2"},
                           {"value":"gauss","label":"Gauss"}], 
-         "gridParam":false
+         "gridParam":true
         },
         {"name":"regmodel", 
          "label":"Regression model", 
@@ -64,7 +64,7 @@
                           {"value":"linear","label":"Linear"},
                           {"value":"interactive","label":"Interactive"},
                           {"value":"quadratic","label":"Quadratic"}], 
-         "gridParam":false
+         "gridParam":true
         },
         {"name":"normalize",
          "label":"Normalize input data",
@@ -80,7 +80,7 @@
          "type":"MULTISELECT", 
          "defaultValue":|, 
          "selectChoices":[{"value":"BFGS","label":"BFGS"},{"value":"BFGS10","label":"10 BFGS"},{"value":"None","label":"None"}],
-         "gridParam":false
+         "gridParam":true
         },
         {"name":"objective",
          "label":"Objective to target for training",
@@ -88,7 +88,7 @@
          "type":"SELECT",
          "defaultValue":"LL",
          "selectChoices":[{"value":"LL","label":"log-likelihood"},{"value":"LOO","label":"leave-one-out"},{"value":"LMP","label":"log-marginal-posterior"}],
-         "gridParam":false
+         "gridParam":true
         },
         {"name":"noise",
          "label":"Noise",
@@ -96,7 +96,7 @@
          "type":"DOUBLE", 
          "defaultValue": 0.0,
          "allowDuplicates":false,
-         "gridParam":false
+         "gridParam":true
         }
     ]
 }
