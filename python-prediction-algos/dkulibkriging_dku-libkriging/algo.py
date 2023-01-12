@@ -18,11 +18,11 @@ class KrigingEstimator(BaseEstimator):
         self.parameters = parameters
         if self.parameters is None:
             self.parameters = {}
-        if not self.noise is None:
+        if not noise is None:
             warnings.warn("noise type is:" + str(type(self.noise)))
-            if isinstance(self.noise,int):
-                self.noise = float(self.noise)
-            if isinstance(self.noise,float) & (self.noise == 0.0):
+            if isinstance(noise,int):
+                self.noise = float(noise)
+            if isinstance(noise,float) & (noise == 0.0):
                 self.noise = None
             warnings.warn("noise type becomes:" + str(type(self.noise)))
         if self.noise is None:
