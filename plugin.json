@@ -3,26 +3,26 @@
     "id": "dkulibkriging",
 
     // It is highly recommended to use Semantic Versioning
-    "version": "0.0.1",
+    "version": "0.7.3",
 
     // Meta data for display purposes:
     "meta": {
         // label: name of the plugin as displayed, should be short
-        "label": "Dkulibkriging",
+        "label": "Gaussian Process",
 
         // description: longer string to help end users understand what this plugin does
-        "description": "",
+        "description": "Gausian process regression, prediction and sampling exact or noisy data. Based on libKriging.",
 
-        "author": "admin",
+        "author": "Yann Richet",
 
         // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
         "icon": "icon-puzzle-piece",
 
         // List of tags for filtering the list of plugins
-        "tags": [], //for example: ["Machine Learning", "NLP"]
+        "tags": ["Machine Learning", "Gaussian Process", "Prediction", "Kriging"], //for example: ["Machine Learning", "NLP"]
 
         // URL where the user can learn more about the plugin
-        "url": "",
+        "url": "https://github.com/libKriging",
 
         "licenseInfo": "Apache Software License"
     }
