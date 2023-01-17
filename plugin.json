@@ -16,7 +16,7 @@
         "author": "Yann Richet",
 
         // icon: must be one of the FontAwesome 3.2.1 icons, complete list here at https://fontawesome.com/v3.2.1/icons/
-        "icon": "icon-puzzle-piece",
+        "icon": "icon-star",
 
         // List of tags for filtering the list of plugins
         "tags": ["Machine Learning", "Gaussian Process", "Regression", "Prediction", "Kriging", "Sampling", "Covariance"], //for example: ["Machine Learning", "NLP"]
