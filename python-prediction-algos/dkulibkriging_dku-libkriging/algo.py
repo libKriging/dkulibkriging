@@ -19,22 +19,22 @@ class KrigingEstimator(BaseEstimator):
         if self.parameters is None:
             self.parameters = {}
         if not noise is None:
-            warnings.warn("noise type is:" + str(type(noise)))
+            #warnings.warn("noise type is:" + str(type(noise)))
             if isinstance(noise,int):
                 self.noise = float(noise)
-            elif isinstance(noise,float) & (noise == 0.0):
+            elif (isinstance(noise,float) & (noise == 0.0)) | (isinstance(noise,int) & (noise == 0)):
                 self.noise = None
             else:
                 self.noise = noise
-        if self.noise is None:
-            self.kriging = lk.Kriging(self.kernel)
-        elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
-            self.kriging = lk.NoiseKriging(self.kernel)
-        else:
-            raise Exception("noise type not supported:", type(self.noise))
-        warnings.warn(self.kriging.summary())
         
     def fit(self, X, y):
+        if self.noise is None:
+            self.kriging = lk.Kriging(self.kernel)
+        elif isinstance(self.noise,float) | isinstance(self.noise,int): # homoskedastic user-defined "noise"
+            self.kriging = lk.NoiseKriging(self.kernel)
+        else:
+            raise Exception("noise type not supported:", type(self.noise), " -> ",str(self.noise))
+        
         y = y.values
         ## for debug:
         #np.savetxt("y.csv", y, delimiter=",")
@@ -44,10 +44,11 @@ class KrigingEstimator(BaseEstimator):
         self.y_train = y
         if self.noise is None:
             self.kriging.fit(y, X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)      
-        elif isinstance(self.noise,float): # homoskedastic user-defined "noise"
-            self.kriging.fit(y, np.repeat(self.noise, y.size), X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)
+        elif isinstance(self.noise,float) | isinstance(self.noise,int): # homoskedastic user-defined "noise"
+            self.objective = "LL" # LOO not available in that case
+            self.kriging.fit(y, np.repeat(self.noise * 1.0, y.size), X, self.regmodel, self.normalize, self.optim, self.objective, self.parameters)
         else:
-            raise Exception("noise type not supported:", type(self.noise))
+            raise Exception("noise type not supported:", type(self.noise), " -> ",str(self.noise))
         warnings.warn(self.kriging.summary())
     
     def predict(self, X): # just return mean predicted :(
